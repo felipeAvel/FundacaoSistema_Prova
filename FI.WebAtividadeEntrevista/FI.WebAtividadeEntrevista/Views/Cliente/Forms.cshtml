@@ -1,0 +1,457 @@
+﻿@model WebAtividadeEntrevista.Models.ClienteModel
+
+<form id="formCadastro" method="post">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Nome">Nome:</label>
+                <input required="required" type="text" class="form-control" id="Nome" name="Nome" placeholder="Ex.: João" maxlength="50">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Sobrenome">Sobrenome:</label>
+                <input required="required" type="text" class="form-control" id="Sobrenome" name="Sobrenome" placeholder="Ex.: da Silva" maxlength="255">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="CPF">CPF:</label>
+                <input required="required" type="text" class="form-control" id="CPF" name="CPF" placeholder="Ex.: 999.999.999-99" maxlength="14">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Nacionalidade">Nacionalidade:</label>
+                <input required="required" type="text" class="form-control" id="Nacionalidade" name="Nacionalidade" placeholder="Ex.: brasileira" maxlength="50">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="CEP">CEP:</label>
+                <input required="required" type="text" class="form-control" id="CEP" name="CEP" placeholder="Ex.: 01011-100" maxlength="9">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Estado">Estado:</label>
+                <select required="required" id="Estado" class="form-control" name="Estado">
+                    <option value="">Selecione</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="PE">Pernambuco</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Cidade">Cidade:</label>
+                <input required="required" type="text" class="form-control" id="Cidade" name="Cidade" maxlength="50" placeholder="Ex.: São Paulo">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="Logradouro">Logradouro:</label>
+                <input required="required" type="text" class="form-control" id="Logradouro" name="Logradouro" placeholder="Ex.: Rua Boa Vista 253" maxlength="500">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Email">E-mail:</label>
+                <input required="required" type="text" class="form-control" id="Email" name="Email" placeholder="Ex.: email@email.com" maxlength="2079">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Telefone">Telefone:</label>
+                <input required="required" type="tel" class="form-control" id="Telefone" name="Telefone" placeholder="Ex.: (11) 2020-3030" maxlength="15">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @*/* O Trecho abaixo so esta disponivel na View de Alterar Cliente
+                IdCliente
+                IdCliente necessario para Cadastrar um novo Beneficiarios */*@
+            @if (ViewBag.ViewAlterar == true)
+            {
+                <div class="pull-left">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Beneficiários</button>
+                </div>
+            }
+            else
+            {
+                <div class="pull-left">
+                    <button disabled class="btn btn-sm btn-primary">Beneficiários - Somente na tela de Alterar</button>
+                </div>
+            }
+        </div>
+        <div class="col-lg-12">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-sm btn-success">Salvar</button>
+                @Html.ActionLink("Voltar", "Index", "Cliente", new { }, new { @class = "btn btn-sm btn-danger" })
+            </div>
+        </div>
+    </div>
+</form>
+
+@*/* O Trecho abaixo so esta disponivel na View de Alterar Cliente
+    IdCliente
+    IdCliente necessario para Cadastrar um novo Beneficiarios */*@
+@if (ViewBag.ViewAlterar == true)
+{
+    /* Modal Beneficiarios Alteracao
+    CPF, Nome
+    Modal para Exibicao */
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 1050 !important">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Alterar dados Beneficiário</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="CPF">CPF:</label>
+                            <input required="required" type="text" class="form-control" id="CPFBeneficiarioAlterar" name="CPFBeneficiarioAlterar" placeholder="Ex.: 999.999.999-99" maxlength="14">
+                        </div>
+                        <div class="form-group">
+                            <label for="Nome">Nome:</label>
+                            <input required="required" type="text" class="form-control" id="NomeBeneficiarioAlterar" name="NomeBeneficiarioAlterar" placeholder="Ex.: Maria" maxlength="50">
+                            <input type="text" hidden id="IdBeneficiarios" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="AltararBeneficiario" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    /* Modal Beneficiarios
+    CPF, Nome
+    Modal para Exibicao */
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Beneficiários</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="CPF">CPF:</label>
+                                <input required="required" type="text" class="form-control" id="CPFBeneficiario" name="CPFBeneficiario" placeholder="Ex.: 999.999.999-99" maxlength="14">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Nome">Nome:</label>
+                                <input required="required" type="text" class="form-control" id="NomeBeneficiario" name="NomeBeneficiario" placeholder="Ex.: Maria" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <label style="color:#ffff">Incluir</label>
+                            <button type="button" id="Inserir" class="btn btn-sm btn-success">Incluir</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">CPF</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col" class="text-left">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var row in Model.Beneficiarios)
+                                {
+                                    <tr>
+                                        <td>@Convert.ToUInt64(row.CPF).ToString(@"000\.000\.000\-00")</td>
+                                        <td>@row.Nome</td>
+                                        <td class="text-left">
+                                            <button type="button" id="Alterar" data-id="@row.Id" data-cpf="@row.CPF" data-nome="@row.Nome" class="btn btn-sm btn-primary alterar">Alterar</button>
+                                            <button type="button" id="Excluir" data-id="@row.Id" class="btn btn-sm btn-primary excluir">Excluir</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    /* Mascara para manter o padrao
+    CPF 999.999.999-99
+    Lembrando que o formato sera mantido para salvar na TBL Clientes */
+    document.addEventListener('DOMContentLoaded', function () {
+        const cpfInput = document.getElementById('CPF');
+
+        cpfInput.addEventListener('input', function (event) {
+            let cpf = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+            // Aplica a máscara conforme o tamanho do CPF
+            if (cpf.length <= 3) {
+                cpf = cpf.replace(/(\d{0,3})/, '$1');
+            } else if (cpf.length <= 6) {
+                cpf = cpf.replace(/(\d{3})(\d{0,3})/, '$1.$2');
+            } else if (cpf.length <= 9) {
+                cpf = cpf.replace(/(\d{3})(\d{3})(\d{0,3})/, '$1.$2.$3');
+            } else {
+                cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
+            }
+
+            event.target.value = cpf;
+        });
+    });
+
+    /* Mascara para manter o padrao
+    CPF 999.999.999-99
+    Para Tbl Beneficiarios nao salvamos com formato 999.999.999-99 */
+    document.addEventListener('DOMContentLoaded', function () {
+        const cpfInput = document.getElementById('CPFBeneficiario');
+
+        cpfInput.addEventListener('input', function (event) {
+            let cpf = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+            // Aplica a máscara conforme o tamanho do CPF
+            if (cpf.length <= 3) {
+                cpf = cpf.replace(/(\d{0,3})/, '$1');
+            } else if (cpf.length <= 6) {
+                cpf = cpf.replace(/(\d{3})(\d{0,3})/, '$1.$2');
+            } else if (cpf.length <= 9) {
+                cpf = cpf.replace(/(\d{3})(\d{3})(\d{0,3})/, '$1.$2.$3');
+            } else {
+                cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
+            }
+
+            event.target.value = cpf;
+        });
+    });
+
+    /* Mascara para manter o padrao
+    CPF 999.999.999-99
+    Para Tbl Beneficiarios nao salvamos com formato 999.999.999-99 */
+    document.addEventListener('DOMContentLoaded', function () {
+        const cpfInput = document.getElementById('CPFBeneficiarioAlterar');
+
+        cpfInput.addEventListener('input', function (event) {
+            let cpf = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+            // Aplica a máscara conforme o tamanho do CPF
+            if (cpf.length <= 3) {
+                cpf = cpf.replace(/(\d{0,3})/, '$1');
+            } else if (cpf.length <= 6) {
+                cpf = cpf.replace(/(\d{3})(\d{0,3})/, '$1.$2');
+            } else if (cpf.length <= 9) {
+                cpf = cpf.replace(/(\d{3})(\d{3})(\d{0,3})/, '$1.$2.$3');
+            } else {
+                cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
+            }
+
+            event.target.value = cpf;
+        });
+    });
+
+    /* A func abaixo cria o Modal para interacao com o User
+    Alterar Cliente, Inserir Beneficiarios, Exclir Beneficiarios, Alterar Beneficiario
+    As mensagem sao obtidas via param */
+    function ModalDialog(titulo, texto) {
+        var random = Math.random().toString().replace('.', '');
+        var texto = '<div id="' + random + '" class="modal fade">                                                               ' +
+            '        <div class="modal-dialog">                                                                                 ' +
+            '            <div class="modal-content">                                                                            ' +
+            '                <div class="modal-header">                                                                         ' +
+            '                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>         ' +
+            '                    <h4 class="modal-title">' + titulo + '</h4>                                                    ' +
+            '                </div>                                                                                             ' +
+            '                <div class="modal-body">                                                                           ' +
+            '                    <p>' + texto + '</p>                                                                           ' +
+            '                </div>                                                                                             ' +
+            '                <div class="modal-footer">                                                                         ' +
+            '                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>             ' +
+            '                                                                                                                   ' +
+            '                </div>                                                                                             ' +
+            '            </div><!-- /.modal-content -->                                                                         ' +
+            '  </div><!-- /.modal-dialog -->                                                                                    ' +
+            '</div> <!-- /.modal -->                                                                                        ';
+
+        $('body').append(texto);
+        $('#' + random).modal('show');
+    }
+
+    /* A func abaixo inclui os dados do Beneficiario
+    CPF, Nome, IdCliente
+    Os dados seram enviados para Controller IncluirBeneficiario */
+    const inserir = document.getElementById("Inserir");
+    inserir.addEventListener("click", function () {
+        const cpfInput = document.getElementById('CPFBeneficiario');
+        const nomeInput = document.getElementById('NomeBeneficiario');
+        var controllerInserirBeneficiario = '@Url.Action("IncluirBeneficiario", "Cliente")';
+
+        var formData = new FormData();
+        formData.append('CPF', cpfInput.value);
+        formData.append('Nome', nomeInput.value);
+        formData.append('IdCliente', '@if (ViewBag.ViewAlterar == true){@Model.Id}');
+
+        if (cpfInput.value == "") {
+            //Menssagem de error CPF Obrigatorio
+            ModalDialog("Ocorreu um erro", "O CPF é Obrigatório!");
+        }
+        else if (nomeInput.value == "") {
+            //Menssagem de error Nome Obrigatorio
+            ModalDialog("Ocorreu um erro", "O Nome é Obrigatório!");
+        }
+
+
+        $.ajax({
+            url: controllerInserirBeneficiario,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                    if (data == "CPF Invalido") {
+                        //Menssagem de error CPF inválido
+                        ModalDialog("Ocorreu um erro", "CPF Inválido!");
+                    }
+                    else if (data == "CPF ja existente no banco de dados") {
+                        //Menssagem de error CPF já existente
+                        ModalDialog("Ocorreu um erro", "Não permitir o cadastramento de mais de um beneficiário com o mesmo CPF para o mesmo Cliente");
+                    }
+                    else if (data == "Sucesso") {
+                        //Sucess
+                        ModalDialog("Sucesso!", "Beneficiario Cadastrado com Sucesso");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                },
+            error: function (request, status, error) {
+                    console.log(request.responseText);
+                }
+            });
+    });
+
+    /* A func abaixo Exclui os dados do Beneficiario
+    Id
+    Os dados seram enviados para Controller ExluirBeneficiario */
+    const botoesExcluir = document.querySelectorAll(".excluir");
+    botoesExcluir.forEach(botao => {
+        botao.addEventListener("click", function () {
+            var controllerExcluirBeneficiario = '@Url.Action("ExcluirBeneficiario", "Cliente")';
+            var id = $(this).attr("data-id");
+
+            var formData = new FormData();
+            formData.append('Id', id);
+
+            $.ajax({
+                url: controllerExcluirBeneficiario,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data == "Sucesso") {
+                        //Sucess
+                        ModalDialog("Sucesso!", "Beneficiario Excluido com Sucesso!");
+
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                },
+                error: function (request, status, error) {
+                    console.log(request.responseText);
+                }
+            });
+        });
+    });
+
+    /* A func abaixo exibe o Modal para Alterar os dados do Beneficiario
+    Id, CPF, Nome
+    Os dados sao coletado pela tag data- */
+    const botoesAlterar = document.querySelectorAll(".alterar");
+    botoesAlterar.forEach(botao => {
+        botao.addEventListener("click", function () {
+            var id = $(this).attr("data-id");
+            var cpf = $(this).attr("data-cpf");
+            var nome = $(this).attr("data-nome");
+
+            document.getElementById('IdBeneficiarios').value = id;
+            document.getElementById('CPFBeneficiarioAlterar').value = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            document.getElementById('NomeBeneficiarioAlterar').value = nome;
+
+            $('#exampleModal').modal('show');
+        });
+    });
+
+    /* A func abaixo Alterar os dados do Beneficiario
+    Id, CPF, Nome
+    Os dados seram enviados para Controller AlterarBeneficiario */
+    const alterar = document.getElementById("AltararBeneficiario");
+    alterar.addEventListener("click", function () {
+        const cpfInput = document.getElementById('CPFBeneficiarioAlterar');
+        const nomeInput = document.getElementById('NomeBeneficiarioAlterar');
+        const id = document.getElementById('IdBeneficiarios');
+        var controllerAlterarBeneficiario = '@Url.Action("AlterarBeneficiario", "Cliente")';
+
+        var formData = new FormData();
+        formData.append('CPF', cpfInput.value);
+        formData.append('Nome', nomeInput.value);
+        formData.append('Id', id.value);
+        formData.append('IdCliente', '@if (ViewBag.ViewAlterar == true){@Model.Id}');
+
+        $.ajax({
+            url: controllerAlterarBeneficiario,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                    if (data == "CPF Invalido") {
+                        //Menssagem de error CPF inválido
+                        $('#exampleModal').modal('hide');
+                        ModalDialog("Ocorreu um erro", "CPF Inválido!");
+                    }
+                    else if (data == "CPF ja existente no banco de dados") {
+                        //Menssagem de error CPF já existente
+                        ModalDialog("Ocorreu um erro", "Não permitir o cadastramento de mais de um beneficiário com o mesmo CPF para o mesmo Cliente");
+                        $('#exampleModal').modal('hide');
+                    }
+                    else if (data == "Beneficiario alterado com sucesso") {
+                        //Altrado com sucesso
+                        ModalDialog("Sucesso!", "Beneficiário Alterado com Sucesso");
+                        $('#exampleModal').modal('hide');
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                },
+            error: function (request, status, error) {
+                    console.log(request.responseText);
+                }
+            });
+    });
+</script>
